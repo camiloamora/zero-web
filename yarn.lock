@@ -39,7 +39,7 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@camiloamora/components@^0.1.0":
+"@camiloamora/components@0.1.0":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@camiloamora/components/-/components-0.1.0.tgz#e1d2b2594bffa8ca73d362e1520cff7c49dd3bdc"
   integrity sha512-LU/kypOYgalDkpklvIYpe2h4BpHtT/qk1PqNCVoZ6ZxIPSbTmKHdh5Q/gDHuYLlEYh57IKdB0RBvfNeqG5rbIQ==
@@ -1078,7 +1078,7 @@ native-url@0.3.4:
   dependencies:
     querystring "^0.2.0"
 
-next-transpile-modules@^7.2.0:
+next-transpile-modules@7.2.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/next-transpile-modules/-/next-transpile-modules-7.2.0.tgz#5100cbcd7740a038d4d5f35791a5b00b5ac80421"
   integrity sha512-7kd3/MkqKWz4fZvrIugNQAUo2RUpA8tYY6dwCMgIoFkbo+i3Gm5h0gTieWfUj7eAV/EpO/pqp6DQy2AJqrRdqQ==
