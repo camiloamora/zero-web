@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 
-import { Heading, Input, Button, Spacer } from '@camiloamora/components'
+import { Heading, Input, Button, Spacer, CenteredContent } from '@camiloamora/components'
 
 export default function Home() {
 
@@ -12,7 +12,8 @@ export default function Home() {
     setFormValues({...formValues, [key]: value })
   }
 
-  return <div style={{ display: 'flex', flexDirection: 'column' }}>
+  return (
+  <CenteredContent>
     <Heading>Cuentame sobre ti</Heading>
     <Spacer.Horizontal size="md" />
     <Input placeholder="Nombres" value={formValues.name} onChange={onChange('name')} />
@@ -27,5 +28,6 @@ export default function Home() {
       <Spacer.Horizontal size="md" />
       <Button type="tertiary">Saltar este paso por ahora</Button>
     </div>
-  </div>
+  </CenteredContent>
+  )
 }

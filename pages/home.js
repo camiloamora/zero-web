@@ -1,11 +1,9 @@
-import { Avatar, Heading, Spacer, Card, Icon } from '@camiloamora/components'
+import { Avatar, Heading, Spacer, Card, Icon, CenteredContent } from '@camiloamora/components'
 
 export default function Home() {
 
-  return <div
-  style={{ display: 'flex',
-  flexDirection: 'column' }}>
-
+  return (
+  <CenteredContent>
     <div style={{ display: "flex" }}>
       <Avatar src="http://placeimg.com/200/200/people"></Avatar>
       <Spacer.Vertical size="xs" />
@@ -46,5 +44,6 @@ export default function Home() {
           </span>
         </Icon>
     </Card>
-  </div>
+  </CenteredContent>
+  )
 }

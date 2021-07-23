@@ -1,19 +1,23 @@
 import 'minireset.css'
+import { Container } from '@camiloamora/components'
 import '@camiloamora/components/styles/globals.css'
 import '@camiloamora/components/styles/tokens.css'
 
+import { ReactQueryDevtools } from 'react-query/devtools'
+import { QueryClient, QueryClientProvider } from 'react-query'
+
+ // Create a client
+ const queryClient = new QueryClient()
+
 function MyApp({ Component, pageProps }) {
+
   return (
-  <div
-    style={{
-      width: 375,
-      padding: "40px 30px",
-      border: "1px solid rebeccapurple",
-      margin: "0 auto",
-       }}
-    >
+  <Container>
+    <QueryClientProvider client={queryClient}>
     <Component {...pageProps} />
-  </div>
+       <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  </Container>
   )
 }
 
