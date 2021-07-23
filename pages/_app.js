@@ -3,20 +3,20 @@ import { Container } from '@camiloamora/components'
 import '@camiloamora/components/styles/globals.css'
 import '@camiloamora/components/styles/tokens.css'
 
-import { ReactQueryDevtools } from 'react-query/devtools'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query-devtools'
+import { ReactQueryCacheProvider, QueryCache } from 'react-query'
 
  // Create a client
- const queryClient = new QueryClient()
+ const queryCache = new QueryCache()
 
 function MyApp({ Component, pageProps }) {
 
   return (
   <Container>
-    <QueryClientProvider client={queryClient}>
+    <ReactQueryCacheProvider queryCache={queryCache}>
     <Component {...pageProps} />
        <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    </ReactQueryCacheProvider>
   </Container>
   )
 }

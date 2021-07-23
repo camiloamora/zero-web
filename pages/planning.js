@@ -5,14 +5,36 @@ import {
   Spacer,
   Heading,
 } from "@camiloamora/components";
-import { useQuery } from "react-query";
-import tasksApi from "../features/planning/api";
+import { useQuery, useQueryCache, useMutation, ReactQueryCacheProvider, queryCache, QueryCache } from "react-query";
+import tasks from "../features/planning/api";
 
-function Start() {
-  const { isLoading, error, data } = useQuery("tasks", () => tasksApi.getAll());
+//const queryCache = new QueryCache()
+export async function getStaticProps() {
+  const initialTasks = await tasks.getAll()
+  return { props: { posts }}
+}
+
+function Planning(props) {
+  const cache = useQueryCache()
+  const { isLoading, error, data } = useQuery("todos", () => tasks.getAll(), { initialData: props.initialTasks });
+
+  const [addTask] = useMutation((params) => tasks.create(params), {
+    onSuccess: () => {
+      cache.invalidateQueries('todos')
+    }
+  })
+
+  const [deleteTask] = useMutation((params) => tasksApi.delete(params), {
+    onSuccess: () => {
+      cache.invalidateQueries('todos')
+    }
+  })
+
   if (isLoading) return "Loading...";
   if (error) return `An error has ocurred ${error.message}`;
+
   return (
+    <ReactQueryCacheProvider queryCache={queryCache}>
     <FullHeightContent
       content={
         <div style={{ display: "flex", flexDirection: "column" }}>
@@ -35,13 +57,14 @@ function Start() {
           <Heading size="lg">
             Ahora dime, ¿cuál es la primera tarea en la que trabajaras hoy?
           </Heading>
-          <button onClick={() => {}}>Toca para agregar la tarea</button>
+          <button onClick={() => addTask({ description: 'New tasks' })}>Toca para agregar la tarea</button>
           {data &&
             data.map((task) => {
               return (
                 <div>
-                  <span>{task.id}</span>
-                  <span>{task.description}</span>
+                  <Heading>{task.id}</Heading>
+                  <Heading>{task.description}</Heading>
+                  <button onClick={() => deleteTask({ id: task.id })}>X</button>
                 </div>
               );
             })}
@@ -57,7 +80,8 @@ function Start() {
         </div>
       }
     />
-  );
+    </ReactQueryCacheProvider>
+    );
 }
 
-export default Start;
+export default Planning;
