@@ -9,10 +9,10 @@ import { useQuery, useQueryCache, useMutation, ReactQueryCacheProvider, queryCac
 import tasks from "../features/planning/api";
 
 //const queryCache = new QueryCache()
-export async function getStaticProps() {
-  const initialTasks = await tasks.getAll()
-  return { props: { posts }}
-}
+// export async function getStaticProps() {
+//   const initialTasks = await tasks.getAll()
+//   return { props: { posts }}
+// }
 
 function Planning(props) {
   const cache = useQueryCache()
@@ -24,7 +24,7 @@ function Planning(props) {
     }
   })
 
-  const [deleteTask] = useMutation((params) => tasksApi.delete(params), {
+  const [deleteTask] = useMutation((params) => tasks.delete(params), {
     onSuccess: () => {
       cache.invalidateQueries('todos')
     }
