@@ -4,6 +4,8 @@ import {
   Avatar,
   Spacer,
   Heading,
+  AddButton,
+  Paragraph
 } from "@camiloamora/components";
 import { useQuery, useQueryCache, useMutation, ReactQueryCacheProvider, queryCache, QueryCache } from "react-query";
 import tasks from "../features/planning/api";
@@ -54,28 +56,47 @@ function Planning(props) {
               </Heading>
             </div>
           </div>
+          <Spacer.Horizontal size="md" />
           <Heading size="lg">
             Ahora dime, ¿cuál es la primera tarea en la que trabajaras hoy?
           </Heading>
-          <button onClick={() => addTask({ description: 'New tasks' })}>Toca para agregar la tarea</button>
+          <Spacer.Horizontal size="md" />
+
+
           {data &&
             data.map((task) => {
               return (
-                <div>
+                <div
+                  style={{ display: "flex", alignItems: "center" }}
+                  key={task.id}>
                   <Heading>{task.id}</Heading>
+                  <Spacer.Vertical size="xs" />
                   <Heading>{task.description}</Heading>
-                  <button onClick={() => deleteTask({ id: task.id })}>X</button>
+                  <Button type="secondary"
+                  isInline
+                  onClick={() => deleteTask({ id: task.id })}>
+                    X
+                  </Button>
                 </div>
               );
             })}
+            <Spacer.Horizontal size="md" />
+            <AddButton onAdd={(value) => addTask({ description: value })}
+          focusHelpText="Presiona enter"
+          blurHelpText="Clic para continuar"
+          type="primary"
+          icon="plusCircle">
+          Toca para agregar la tarea
+          </AddButton>
         </div>
       }
       footer={
         <div>
-          <p>
+        <Paragraph size="sm">
             Basados en la matriz de Elisenhover priorizamos tus tareas evitando
             listas de pendientes saturadas
-          </p>
+        </Paragraph>
+          <Spacer.Horizontal size="sm" />
           <Button type="primary">Empieza ahora</Button>
         </div>
       }

@@ -1,3 +1,3 @@
-const withTranspileModules = require('next-transpile-modules')(['@camiloamora/components'])
+const withComponentsLibray = require('./config/withComponentsLibrary')
 
-module.exports = withTranspileModules()
+module.exports = withComponentsLibray()
