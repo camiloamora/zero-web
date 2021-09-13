@@ -5,10 +5,12 @@ import {
   Spacer,
   Heading,
   AddButton,
-  Paragraph
+  Paragraph,
+  Task
 } from "@camiloamora/components";
 import { useQuery, useQueryCache, useMutation, ReactQueryCacheProvider, queryCache, QueryCache } from "react-query";
 import tasks from "../features/planning/api";
+import { useState, useEffect } from 'react'
 
 //const queryCache = new QueryCache()
 // export async function getStaticProps() {
@@ -17,6 +19,7 @@ import tasks from "../features/planning/api";
 // }
 
 function Planning(props) {
+  const [shouldStart,  setShouldStart] = useState(false)
   const cache = useQueryCache()
   const { isLoading, error, data } = useQuery("todos", () => tasks.getAll(), { initialData: props.initialTasks });
 
@@ -32,8 +35,27 @@ function Planning(props) {
     }
   })
 
+  useEffect(() => {
+    if(data?.length >= 1 ) {
+      setShouldStart(true)
+    } else {
+      setShouldStart(false)
+    }
+  }, [data])
+
+  const getTaskType = (index) => {
+    if(index >2 ) {
+      return null
+    }
+
+    return index === 0 ? 'active': 'standby'
+  }
+
   if (isLoading) return "Loading...";
   if (error) return `An error has ocurred ${error.message}`;
+
+  const [firstTask, secondTask, thirdTask, ...backlogTasks] = data
+  const priorityTask = [firstTask, secondTask, thirdTask]
 
   return (
     <ReactQueryCacheProvider queryCache={queryCache}>
@@ -62,22 +84,35 @@ function Planning(props) {
           </Heading>
           <Spacer.Horizontal size="md" />
 
-
-          {data &&
-            data.map((task) => {
+          {
+            priorityTask?.map((task, index) => {
               return (
-                <div
-                  style={{ display: "flex", alignItems: "center" }}
-                  key={task.id}>
-                  <Heading>{task.id}</Heading>
-                  <Spacer.Vertical size="xs" />
-                  <Heading>{task.description}</Heading>
-                  <Button type="secondary"
-                  isInline
-                  onClick={() => deleteTask({ id: task.id })}>
-                    X
-                  </Button>
-                </div>
+                <>
+                  <Task
+                  key={task.id}
+                  onDelete={() => deleteTask({ id: task.id })}
+                  isPending
+                  type={getTaskType(index)}
+                  >
+                  {task.description}
+                  </Task>
+                  <Spacer.Horizontal size="xs"/>
+                </>
+              );
+            })}
+            <div style={{ height: 5, margin:'10px 0', background: 'tomato'  }} />
+            {backlogTasks?.map((task) => {
+              return (
+                <>
+                  <Task
+                  key={task.id}
+                  onDelete={() => deleteTask({ id: task.id })}
+                  isPending
+                  >
+                  {task.description}
+                  </Task>
+                  <Spacer.Horizontal size="xs"/>
+                </>
               );
             })}
             <Spacer.Horizontal size="md" />
@@ -90,16 +125,17 @@ function Planning(props) {
           </AddButton>
         </div>
       }
-      footer={
-        <div>
+      footer={ shouldStart ?
+        <>
+        <Spacer.Horizontal size="lg" />
         <Paragraph size="sm">
             Basados en la matriz de Elisenhover priorizamos tus tareas evitando
             listas de pendientes saturadas
         </Paragraph>
           <Spacer.Horizontal size="sm" />
-          <Button type="primary">Empieza ahora</Button>
-        </div>
-      }
+          <Button isDisabled type="primary">Empieza ahora</Button>
+        </>
+      : null}
     />
     </ReactQueryCacheProvider>
     );
