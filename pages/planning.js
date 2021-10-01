@@ -12,11 +12,23 @@ import { useQuery, useQueryCache, useMutation, ReactQueryCacheProvider, queryCac
 import tasks from "../features/planning/api";
 import { useState, useEffect } from 'react'
 
+const PRIORITY_TASK_QUANTITY = 3
+
 //const queryCache = new QueryCache()
-// export async function getStaticProps() {
-//   const initialTasks = await tasks.getAll()
-//   return { props: { posts }}
-// }
+export async function getStaticProps() {
+   const initialTasks = await tasks.getAll()
+   return { props: { initialTasks }}
+}
+
+function splitTask(tasks) {
+  const priorityTask = tasks.slice(0, PRIORITY_TASK_QUANTITY)
+  const backlogTasks = tasks.slice(PRIORITY_TASK_QUANTITY, tasks.length)
+
+  return {
+    priorityTask,
+    backlogTasks
+  }
+}
 
 function Planning(props) {
   const [shouldStart,  setShouldStart] = useState(false)
@@ -36,6 +48,7 @@ function Planning(props) {
   })
 
   useEffect(() => {
+    console.log('>>>',data)
     if(data?.length >= 1 ) {
       setShouldStart(true)
     } else {
@@ -54,8 +67,7 @@ function Planning(props) {
   if (isLoading) return "Loading...";
   if (error) return `An error has ocurred ${error.message}`;
 
-  const [firstTask, secondTask, thirdTask, ...backlogTasks] = data
-  const priorityTask = [firstTask, secondTask, thirdTask]
+  const { priorityTask, backlogTasks } = splitTask(data);
 
   return (
     <ReactQueryCacheProvider queryCache={queryCache}>
