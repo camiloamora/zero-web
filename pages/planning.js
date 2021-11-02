@@ -11,6 +11,7 @@ import {
 import { useQuery, useQueryCache, useMutation, ReactQueryCacheProvider, queryCache, QueryCache } from "react-query";
 import tasks from "../features/planning/api";
 import { useState, useEffect } from 'react'
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 
 const PRIORITY_TASK_QUANTITY = 3
 
@@ -41,6 +42,13 @@ function Planning(props) {
     }
   })
 
+  const [updatePriorities] = useMutation(
+    (params) => tasks.updatePriority(params), {
+    onSuccess: () => {
+      cache.invalidateQueries('todos')
+    }
+  })
+
   const [deleteTask] = useMutation((params) => tasks.delete(params), {
     onSuccess: () => {
       cache.invalidateQueries('todos')
@@ -56,6 +64,30 @@ function Planning(props) {
     }
   }, [data])
 
+  const onDragEnd = (result) => {
+    // dropped outside the list
+    if (!result.destination) {
+      return
+    }
+
+    console.log('result.source.index',result.source.index)
+    console.log('result.destination.index',result.destination.index)
+
+    updatePriorities({
+      id: Number(result.draggableId),
+      priority: result.destination.index
+    })
+    // updatePriorities(reorderTasks)
+  }
+
+  const reorderTasks = (list, startIndex, endIndex) => {
+    const result = Array.from(list)
+    const [removed] = result.splice(startIndex, 1)
+    result.splice(endIndex, 0, removed)
+
+    return result.map((task, index) => ({ ...task, priority: index }))
+  }
+
   const getTaskType = (index) => {
     if(index >2 ) {
       return null
@@ -67,7 +99,7 @@ function Planning(props) {
   if (isLoading) return "Loading...";
   if (error) return `An error has ocurred ${error.message}`;
 
-  const { priorityTask, backlogTasks } = splitTask(data);
+  // const { priorityTask, backlogTasks } = splitTask(data);
 
   return (
     <ReactQueryCacheProvider queryCache={queryCache}>
@@ -95,38 +127,50 @@ function Planning(props) {
             Ahora dime, ¿cuál es la primera tarea en la que trabajaras hoy?
           </Heading>
           <Spacer.Horizontal size="md" />
-
+          <DragDropContext onDragEnd={onDragEnd}>
+              <Droppable droppableId="planning">
+                {(provided) => (
+                  <div
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
           {
-            priorityTask?.map((task, index) => {
+            data?.map((task, index) => {
               return (
                 <>
-                  <Task
+                 <Draggable
                   key={task.id}
-                  onDelete={() => deleteTask({ id: task.id })}
-                  isPending
-                  type={getTaskType(index)}
-                  >
-                  {task.description}
-                  </Task>
+                draggableId={String(task.id)}
+                index={index}
+                >
+                {(provided) => (
+                  <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={provided.draggableProps.style}
+                        >
+                    <Task
+                    key={task.id}
+                    onDelete={() => deleteTask({ id: task.id })}
+                    isPending
+                    type={getTaskType(index)}
+                    >
+                    {task.description}
+                    </Task>
+                   </div>
+                  )}
+                  </Draggable>
                   <Spacer.Horizontal size="xs"/>
                 </>
               );
             })}
             <div style={{ height: 5, margin:'10px 0', background: 'tomato'  }} />
-            {backlogTasks?.map((task) => {
-              return (
-                <>
-                  <Task
-                  key={task.id}
-                  onDelete={() => deleteTask({ id: task.id })}
-                  isPending
-                  >
-                  {task.description}
-                  </Task>
-                  <Spacer.Horizontal size="xs"/>
-                </>
-              );
-            })}
+            {/* {provided.placeholder} */}
+            </div>
+               )}
+            </Droppable>
+            </DragDropContext>
             <Spacer.Horizontal size="md" />
             <AddButton onAdd={(value) => addTask({ description: value })}
           focusHelpText="Presiona enter"

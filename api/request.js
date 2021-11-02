@@ -6,7 +6,8 @@ class Request {
   }
 
   request(resource = this.resource, options = {}) {
-    const requestOptions = {...options}
+    const method = options.method ? options.method.toUpperCase() : 'GET'
+    const requestOptions = {...options, method: method }
 
     requestOptions.headers = new Headers({
       'Content-Type': 'application/json',

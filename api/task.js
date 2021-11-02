@@ -2,7 +2,8 @@ import Request from "./request"
 
 class Task extends Request {
   getAll() {
-    return this.request()
+    // TODO: Implement a sort param, and remove the hardcoded
+    return this.request('tasks?_sort=priority&_order=asc')
   }
 
   getById({ id }) {
@@ -12,6 +13,13 @@ class Task extends Request {
   create({ description }) {
     return this.request('tasks',
     { method: 'post', body: { description }})
+  }
+
+  updatePriority({id, priority}) {
+    console.log('id',id)
+    console.log('priority',priority)
+    return this.request('tasks/${id}',
+    { method: 'patch', body: { priority }})
   }
 
   delete({ id }) {
