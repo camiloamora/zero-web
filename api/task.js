@@ -10,16 +10,18 @@ class Task extends Request {
     return this.request(`tasks/${id}`)
   }
 
-  create({ description }) {
+  create({ description, priority }) {
     return this.request('tasks',
-    { method: 'post', body: { description }})
+    { method: 'post', body: { description, priority }})
   }
 
-  updatePriority({id, priority}) {
-    console.log('id',id)
-    console.log('priority',priority)
-    return this.request('tasks/${id}',
-    { method: 'patch', body: { priority }})
+  updatePriorities({tasks}) {
+    return Promise.all(
+      tasks.map(({id, priority }) => {
+      this.request(`tasks/${id}`,
+        { method: 'patch',
+        body: { priority }})
+    }))
   }
 
   delete({ id }) {

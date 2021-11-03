@@ -43,7 +43,7 @@ function Planning(props) {
   })
 
   const [updatePriorities] = useMutation(
-    (params) => tasks.updatePriority(params), {
+    (params) => tasks.updatePriorities(params), {
     onSuccess: () => {
       cache.invalidateQueries('todos')
     }
@@ -73,10 +73,14 @@ function Planning(props) {
     console.log('result.source.index',result.source.index)
     console.log('result.destination.index',result.destination.index)
 
-    updatePriorities({
-      id: Number(result.draggableId),
-      priority: result.destination.index
-    })
+    const sourceIndex = result.source.index
+    const destinationIndex = result.destination.index
+    const orderTask = reorderTasks(data, sourceIndex, destinationIndex)
+    updatePriorities({ tasks: orderTask })
+    // updatePriorities({
+    //   id: Number(result.draggableId),
+    //   priority: result.destination.index
+    // })
     // updatePriorities(reorderTasks)
   }
 
@@ -172,7 +176,9 @@ function Planning(props) {
             </Droppable>
             </DragDropContext>
             <Spacer.Horizontal size="md" />
-            <AddButton onAdd={(value) => addTask({ description: value })}
+            <AddButton onAdd={(value) =>
+            addTask({ description: value,
+            priority:  data.length })}
           focusHelpText="Presiona enter"
           blurHelpText="Clic para continuar"
           type="primary"
