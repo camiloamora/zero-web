@@ -93,7 +93,7 @@ function Planning(props) {
   }
 
   const getTaskType = (index) => {
-    if(index >2 ) {
+    if(index >PRIORITY_TASK_QUANTITY - 1 ) {
       return null
     }
 
@@ -162,6 +162,11 @@ function Planning(props) {
                     >
                     {task.description}
                     </Task>
+                    {index === (PRIORITY_TASK_QUANTITY -1 ) &&
+                      (
+                        <div style={{ height: 5, margin:'10px 0', background: 'tomato'  }} />
+                      )
+                    }
                    </div>
                   )}
                   </Draggable>
@@ -169,8 +174,6 @@ function Planning(props) {
                 </>
               );
             })}
-            <div style={{ height: 5, margin:'10px 0', background: 'tomato'  }} />
-            {/* {provided.placeholder} */}
             </div>
                )}
             </Droppable>
