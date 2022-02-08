@@ -5,6 +5,9 @@ import '@camiloamora/components/styles/tokens.css'
 
 import { ReactQueryDevtools } from 'react-query-devtools'
 import { ReactQueryCacheProvider, QueryCache } from 'react-query'
+import ToogleColorScheme from '../features/common/components/ToogleColorScheme'
+import '../styles/globals.css'
+
 
  // Create a client
  const queryCache = new QueryCache()
@@ -12,12 +15,15 @@ import { ReactQueryCacheProvider, QueryCache } from 'react-query'
 function MyApp({ Component, pageProps }) {
 
   return (
-  <Container>
-    <ReactQueryCacheProvider queryCache={queryCache}>
-    <Component {...pageProps} />
-       <ReactQueryDevtools initialIsOpen={false} />
-    </ReactQueryCacheProvider>
-  </Container>
+    <>
+      <ToogleColorScheme />
+      <Container>
+        <ReactQueryCacheProvider queryCache={queryCache}>
+        <Component {...pageProps} />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </ReactQueryCacheProvider>
+      </Container>
+    </>
   )
 }
 

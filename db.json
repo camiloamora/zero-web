@@ -1,19 +1,24 @@
 {
   "tasks": [
     {
-      "description": "Esta es la primera tasks",
+      "description": "Primera tarea",
       "priority": 0,
       "id": 1
     },
     {
-      "description": "Esta es la segunda t",
+      "description": "Segunda tarea",
       "priority": 1,
       "id": 2
     },
     {
-      "description": "Esta es la tercera t",
+      "description": "Tercera tarea",
       "priority": 2,
       "id": 3
+    },
+    {
+      "description": "Hola tarea secundaria",
+      "priority": 3,
+      "id": 4
     }
   ],
   "profile": {

@@ -1,0 +1,27 @@
+/* :root{
+  --colors-primary:red;
+  --colors-secondary: green;
+  --backgrounds-primary: blue;
+  --backgrounds-highlight: tomato;
+} */
+
+html,
+body {
+  background: var(--background-color-primary);
+}
+
+ @media (prefers-color-scheme: dark) {
+  :root:not([data-color-scheme='light']) {
+    --colors-primary:#fb8b24;
+  --colors-secondary: #eb2e52;
+  --background-color-primary: #032b43;
+  --background-color-primary-highlight: #172a3a;
+  }
+ }
+
+:root body[data-color-scheme="dark"] {
+  --colors-primary:#fb8b24;
+  --colors-secondary: #eb2e52;
+  --background-color-primary: #032b43;
+  --background-color-primary-highlight: #172a3a;
+}
