@@ -5,7 +5,7 @@ import '@camiloamora/components/styles/tokens.css'
 
 import { ReactQueryDevtools } from 'react-query-devtools'
 import { ReactQueryCacheProvider, QueryCache } from 'react-query'
-import ToogleColorScheme from '../features/common/components/ToogleColorScheme'
+import ToogleColorScheme from '../features/common/components/ToogleColorSheme/ToogleColorScheme'
 import '../styles/globals.css'
 
 

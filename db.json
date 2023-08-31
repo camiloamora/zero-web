@@ -11,12 +11,12 @@
       "id": 2
     },
     {
-      "description": "Tercera tarea",
+      "description": "Tercera Tarea",
       "priority": 2,
       "id": 3
     },
     {
-      "description": "Hola tarea secundaria",
+      "description": "A partir de esta tarea inicia el backlog",
       "priority": 3,
       "id": 4
     }
