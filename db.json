@@ -1,24 +1,34 @@
 {
   "tasks": [
     {
-      "description": "Primera tarea",
-      "priority": 0,
+      "description": "Primera Tarea",
+      "priority": 1,
       "id": 1
     },
     {
-      "description": "Segunda tarea",
-      "priority": 1,
+      "description": "Segunda Tarea",
+      "priority": 0,
       "id": 2
     },
     {
-      "description": "Tercera Tarea",
+      "description": "Tercera tarea",
       "priority": 2,
       "id": 3
     },
     {
-      "description": "A partir de esta tarea inicia el backlog",
+      "description": "ggfgfgd",
       "priority": 3,
       "id": 4
+    },
+    {
+      "description": "gfgfdrtetr",
+      "priority": 4,
+      "id": 5
+    },
+    {
+      "description": "gdggfdgfd",
+      "priority": 5,
+      "id": 6
     }
   ],
   "profile": {

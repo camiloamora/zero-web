@@ -1,4 +1,4 @@
-import { setColorSheme } from './utils'
+import { setColorSheme } from './helpers'
 
 export const handleClick = ({ isChecked, setIsChecked }) => () => {
   setColorSheme({ isDarkMode: !isChecked, setIsChecked })

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Check, Heading } from '@camiloamora/components'
 import { handleClick } from './handlers'
-import { initialColorSheme  } from './utils'
+import { initialColorSheme  } from './helpers'
 
 const ToogleColorScheme = () => {
 
